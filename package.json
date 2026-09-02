@@ -1,8 +1,11 @@
 {
   "name": "matwind",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "private": true,
   "license": "MIT",
+  "bin": {
+    "matwind": "./cli/matwind.mjs"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/kejie1/matwind.git"

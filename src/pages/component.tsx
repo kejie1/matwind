@@ -1,4 +1,4 @@
-import { Api } from "../docs-ui";
+import { Api, Code } from "../docs-ui";
 import { useT } from "../locale";
 import { Playground } from "../playground";
 import { previews } from "../previews";
@@ -10,6 +10,7 @@ export function ComponentPage({ group, item }: { group: CatalogGroup; item: Cata
   const file = spec?.file ?? item.file;
   const rows = spec?.props.map((r) => [r[0], r[1], r[2], r[3] ? t(r[3][0], r[3][1]) : ""]) ?? [];
   const head = spec?.propsHead?.map(([zh, en]) => t(zh, en));
+  const add = `npx matwind add ${item.id}`;
 
   return (
     <div className="space-y-10 pb-24">
@@ -33,6 +34,7 @@ export function ComponentPage({ group, item }: { group: CatalogGroup; item: Cata
           </p>
         ) : null}
       </div>
+      <Code label="terminal">{add}</Code>
       {spec ? <Playground spec={spec} /> : null}
       {spec?.note ? <p className="m-0 text-sm text-[var(--md-text-secondary)]">{t(...spec.note)}</p> : null}
       {rows.length ? <Api title="Props" head={head} rows={rows} /> : null}

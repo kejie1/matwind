@@ -2,9 +2,8 @@ import { useState } from "react";
 import { catalog, hrefOf } from "../catalog";
 import { Button } from "../components/button";
 import { REPO } from "../repo";
-import { CopyButton, Highlighted } from "../docs-ui";
+import { Highlighted, Code } from "../docs-ui";
 import { useT } from "../locale";
-import { sources } from "../sources";
 
 const variants = ["contained", "outlined", "text", "disabled"] as const;
 
@@ -22,7 +21,7 @@ export function LandingPage() {
               {t("开源 · MIT", "Open source · MIT")}
             </p>
             <h1 className="text-4xl font-black leading-[1.1] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-              {t("开源 Material 组件。拷源码，不装包。", "Open-source Material. Copy the source — don't install a package.")}
+              {t("开源 Material 组件。npx add，不装 @mui。", "Open-source Material. npx add — don't install @mui.")}
             </h1>
             <p className="max-w-xl text-base font-normal leading-relaxed text-slate-600 sm:text-lg">
               {t(
@@ -32,7 +31,7 @@ export function LandingPage() {
               <code className="font-mono text-[13px]">sx</code>
               {t("、没有 ", ", no ")}
               <code className="font-mono text-[13px]">@mui/*</code>
-              {t("。文件拷进仓库就归你改。", ". Copy the files in — they're yours to change.")}
+              {t("。项目根目录 npx matwind add button，文件归你改。", ". From your app root: npx matwind add button — the files are yours to change.")}
             </p>
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <a
@@ -54,6 +53,9 @@ export function LandingPage() {
             <p className="text-xs font-medium text-slate-400">
               {count} {t("个组件", "components")} · MIT · React + Tailwind
             </p>
+            <div className="max-w-xl">
+              <Code label="terminal">{`npx matwind add button`}</Code>
+            </div>
           </div>
 
           <div className="lg:col-span-5">
@@ -106,23 +108,28 @@ export function LandingPage() {
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
             <div className="flex size-10 items-center justify-center rounded-xl bg-blue-50 text-lg font-bold text-blue-600">1</div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">Copy material.css</h3>
-              <p className="mt-1 text-xs leading-relaxed text-slate-500">{t("只拷一次。入口 CSS 里 @import，不要拷文档站的 index.css。", "Copy once. @import it in your entry CSS. Don't copy the docs site's index.css.")}</p>
+              <h3 className="text-base font-bold text-slate-900">npx matwind add</h3>
+              <p className="mt-1 text-xs leading-relaxed text-slate-500">
+                {t(
+                  "在项目根目录执行。写入 src/components、src/lib，没有的话再写 src/material.css。不装 @mui。",
+                  "Run from your app root. Writes src/components, src/lib, and src/material.css if missing. No @mui.",
+                )}
+              </p>
             </div>
-            <CopyButton
-              text={sources["material.css"]}
-              label="Copy material.css"
-              className="inline-flex h-8 items-center gap-1.5 rounded-lg bg-slate-900 px-3 font-mono text-xs text-slate-200 hover:bg-slate-800"
-            />
+            <div className="doc-scroll overflow-x-auto rounded-lg bg-slate-900 px-3 py-2 font-mono text-xs text-slate-300">
+              <Highlighted code={`npx matwind add button`} />
+            </div>
           </div>
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">
             <div className="flex size-10 items-center justify-center rounded-xl bg-purple-50 text-lg font-bold text-purple-600">2</div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">{t("拷组件文件", "Copy component files")}</h3>
-              <p className="mt-1 text-xs leading-relaxed text-slate-500">{t("源码 tab 点复制全部。cn / ripple 在安装里拷一次。", "On the Source tab, copy all. Copy cn / ripple once in Installation.")}</p>
+              <h3 className="text-base font-bold text-slate-900">{t("入口 CSS 引进来", "Import the CSS once")}</h3>
+              <p className="mt-1 text-xs leading-relaxed text-slate-500">
+                {t("add 写过 material.css 之后，入口里 @import 一次。", "After add writes material.css, @import it once in your entry CSS.")}
+              </p>
             </div>
             <div className="doc-scroll overflow-x-auto rounded-lg bg-slate-900 px-3 py-2 font-mono text-xs text-slate-300">
-              <Highlighted code={`import { Button } from "./components/button";`} />
+              <Highlighted code={`@import "./src/material.css";`} />
             </div>
           </div>
           <div className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md">

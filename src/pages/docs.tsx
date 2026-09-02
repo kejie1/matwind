@@ -38,8 +38,8 @@ export function IntroPage() {
     <Page
       title={t("简介", "Introduction")}
       lead={t(
-        "开源的 Material 2 组件，MIT 许可。像 shadcn 一样拷文件进仓库；本仓库同时是文档站。",
-        "Open-source Material 2 components, MIT licensed. Copy files into your repo like shadcn — this repo is also the docs site.",
+        "开源的 Material 2 组件，MIT 许可。npx matwind add 把源码写进你的项目；本仓库同时是文档站。",
+        "Open-source Material 2 components, MIT licensed. npx matwind add writes source into your project — this repo is also the docs site.",
       )}
     >
       <H2>{t("这是什么", "What this is")}</H2>
@@ -47,14 +47,15 @@ export function IntroPage() {
         <P>
           matwind 是一个开源仓库：皮肤对齐 <code className="font-mono text-[13px]">@mui/material</code> 9.3.1 的{" "}
           <strong className="font-medium text-[var(--doc-ink)]">default light</strong>（Material 2）。组件是普通 React + Tailwind
-          className，源文件在 <code className="font-mono text-[13px]">src/components/</code>。克隆仓库，或把文件拷进你的项目，文件归你改。
+          className，源文件在 <code className="font-mono text-[13px]">src/components/</code>。
+          <code className="font-mono text-[13px]">npx matwind add button</code> 写进当前项目，文件归你改。
         </P>
       ) : (
         <P>
           matwind is an open-source repo. Skin matches <code className="font-mono text-[13px]">@mui/material</code> 9.3.1{" "}
           <strong className="font-medium text-[var(--doc-ink)]">default light</strong> (Material 2). Components are plain React +
-          Tailwind className. Source lives in <code className="font-mono text-[13px]">src/components/</code>. Clone it, or copy
-          files into your project — they're yours to edit.
+          Tailwind className. Source lives in <code className="font-mono text-[13px]">src/components/</code>.{" "}
+          <code className="font-mono text-[13px]">npx matwind add button</code> writes it into your app — it's yours to edit.
         </P>
       )}
       <P>
@@ -72,7 +73,7 @@ export function IntroPage() {
       <Api
         head={["", "matwind", "MUI", "shadcn/ui"]}
         rows={[
-          [t("安装", "Install"), t("拷文件", "Copy files"), "npm @mui/material", t("拷文件", "Copy files")],
+          [t("安装", "Install"), "npx matwind add", "npm @mui/material", "npx shadcn add"],
           [t("样式", "Style"), "className + CSS " + t("变量", "variables"), "Emotion / sx", "className + CSS " + t("变量", "variables")],
           [t("皮肤", "Skin"), "MUI default light", t("你选的 theme", "Your theme"), t("你选的 theme", "Your theme")],
           [t("依赖", "Deps"), "React + Tailwind", "Emotion、@mui/*", "Radix + Tailwind"],
@@ -104,11 +105,13 @@ export function IntroPage() {
 
       <H2>{t("下一步", "Next")}</H2>
       <P>
-        {t("接到项目看 ", "To wire it into a project see ")}
+        {t("接到项目：", "Into a project: ")}
+        <code className="font-mono text-[13px]">npx matwind add button</code>
+        {t("。细节看 ", ". Details: ")}
         <a href="/docs/installation" className="doc-link">
           {t("安装", "Installation")}
         </a>
-        {t("。拷组件的完整步骤在 ", ". Full copy steps are in ")}
+        {t("。用法和 props 在 ", ". Usage and props: ")}
         <a href="/docs/usage" className="doc-link">
           {t("用法", "Usage")}
         </a>
@@ -134,30 +137,10 @@ export function InstallPage() {
     <Page
       title={t("安装", "Installation")}
       lead={t(
-        "克隆本仓库跑文档站，或把 token 和组件拷进已有的 React + Tailwind v4 项目。",
-        "Clone this repo to run the docs, or copy tokens and components into an existing React + Tailwind v4 app.",
+        "已有 React + Tailwind v4 项目里：npx matwind add button。克隆本仓库只用来跑文档站。",
+        "In an existing React + Tailwind v4 app: npx matwind add button. Clone this repo only to run the docs.",
       )}
     >
-      <H2>{t("跑文档站", "Run the docs site")}</H2>
-      <P>{t("克隆后在仓库里：", "After cloning:")}</P>
-      <div className="mt-4">
-        <Code label="terminal">{`git clone ${REPO}.git
-cd ${NAME}
-npm install
-npm run dev`}</Code>
-      </div>
-      {lang === "zh" ? (
-        <P>
-          打开 <code className="font-mono text-[13px]">http://localhost:5177/</code>。首页是介绍，侧栏 Docs 是手册，Components
-          是组件目录。
-        </P>
-      ) : (
-        <P>
-          Open <code className="font-mono text-[13px]">http://localhost:5177/</code>. Home is the intro, the Docs sidebar is the
-          handbook, Components is the catalog.
-        </P>
-      )}
-
       <H2>{t("接到已有项目", "Into an existing project")}</H2>
       <P>
         {t(
@@ -175,6 +158,45 @@ npm run dev`}</Code>
           Tailwind v4 goes in your entry CSS as <code className="font-mono text-[13px]">@import "tailwindcss"</code>. Don't add a
           Tailwind v3 <code className="font-mono text-[13px]">tailwind.config.js</code> just to use matwind.
         </P>
+      )}
+
+      <H2>npx matwind add</H2>
+      {lang === "zh" ? (
+        <P>
+          在你的项目根目录执行。会把该组件和它的相对依赖写进 <code className="font-mono text-[13px]">src/components/</code>、
+          <code className="font-mono text-[13px]">src/lib/</code>，并在还没有的时候写入{" "}
+          <code className="font-mono text-[13px]">src/material.css</code>。不会安装 <code className="font-mono text-[13px]">@mui/*</code>
+          。入口 CSS 里 <code className="font-mono text-[13px]">@import "./src/material.css"</code> 一次即可。
+        </P>
+      ) : (
+        <P>
+          Run it from your app root. It writes the component and its relative imports into{" "}
+          <code className="font-mono text-[13px]">src/components/</code> and <code className="font-mono text-[13px]">src/lib/</code>,
+          and writes <code className="font-mono text-[13px]">src/material.css</code> if missing. It does not install{" "}
+          <code className="font-mono text-[13px]">@mui/*</code>. Import the CSS once:{" "}
+          <code className="font-mono text-[13px]">@import "./src/material.css"</code>.
+        </P>
+      )}
+      <div className="mt-4">
+        <Code label="terminal">{`npx matwind add button
+npx matwind add button dialog`}</Code>
+      </div>
+      {lang === "zh" ? (
+        <P>
+          Agent 用同一套写入：把 MCP 配成 <code className="font-mono text-[13px]">npx matwind mcp</code>。没有第二套系统。
+        </P>
+      ) : (
+        <P>
+          Agents use the same write path: point MCP at <code className="font-mono text-[13px]">npx matwind mcp</code>. Not a
+          second system.
+        </P>
+      )}
+
+      <H2>{t("或用手拷", "Or copy by hand")}</H2>
+      {lang === "zh" ? (
+        <P>不用 CLI 时，下面三步和 add 写入的是同一批文件。</P>
+      ) : (
+        <P>Without the CLI, these three steps write the same files add does.</P>
       )}
 
       <H2>{t("1. 拷 CSS（只拷一次）", "1. Copy CSS (once)")}</H2>
@@ -299,6 +321,25 @@ npm run dev`}</Code>
           .
         </P>
       )}
+      <H2>{t("跑文档站", "Run the docs site")}</H2>
+      <P>{t("克隆后在仓库里：", "After cloning:")}</P>
+      <div className="mt-4">
+        <Code label="terminal">{`git clone ${REPO}.git
+cd ${NAME}
+npm install
+npm run dev`}</Code>
+      </div>
+      {lang === "zh" ? (
+        <P>
+          打开 <code className="font-mono text-[13px]">http://localhost:5177/</code>。首页是介绍，侧栏 Docs 是手册，Components
+          是组件目录。
+        </P>
+      ) : (
+        <P>
+          Open <code className="font-mono text-[13px]">http://localhost:5177/</code>. Home is the intro, the Docs sidebar is the
+          handbook, Components is the catalog.
+        </P>
+      )}
       <Pager prev={{ href: "/docs", title: t("简介", "Introduction") }} next={{ href: "/docs/usage", title: t("用法", "Usage") }} />
     </Page>
   );
@@ -311,8 +352,8 @@ export function UsagePage() {
     <Page
       title={t("用法", "Usage")}
       lead={t(
-        "从打开文档到组件在你仓库里能跑。本页是完整手册，组件页只给 Demo 和 API。",
-        "From opening the docs to the component running in your repo. This is the handbook; component pages only show demo and API.",
+        "npx matwind add 把源码写进你的项目。本页是用法手册，组件页只给 Demo 和 API。",
+        "npx matwind add writes source into your project. This is the handbook; component pages only show demo and API.",
       )}
     >
       <H2>{t("工作流", "Workflow")}</H2>
@@ -331,25 +372,23 @@ export function UsagePage() {
       </Ul>
       <P>{t("步骤：", "Steps:")}</P>
       <ol className="doc-ol">
-        <li>{t("侧栏进分类，点组件标题（例如 /inputs/button）。", "Pick a category in the sidebar, then a component (for example /inputs/button).")}</li>
-        <li>{t("先在预览里试 variant / color / 受控写法。", "Try variant / color / controlled API in the preview first.")}</li>
         <li>
-          {lang === "zh" ? (
-            <>
-              到源码区点复制全部。剪贴板按 <code className="font-mono text-[13px]">// ===== 文件名 =====</code>{" "}
-              拆开贴。cn.ts / ripple 在安装时已经拷过，这里不会带上。
-            </>
-          ) : (
-            <>
-              Copy all from Source. Split the clipboard on{" "}
-              <code className="font-mono text-[13px]">// ===== filename =====</code>. cn.ts / ripple were copied during
-              Installation and are not included.
-            </>
-          )}
+          {t("项目根目录：", "From your app root: ")}
+          <code className="font-mono text-[13px]">npx matwind add button</code>
         </li>
-        <li>{t("按 Installation 的目录贴进项目。主文件名保持原样，import 才不用改。", "Paste into the Installation folders. Keep filenames so imports don't change.")}</li>
+        <li>
+          {t("入口 CSS：", "Entry CSS: ")}
+          <code className="font-mono text-[13px]">@import "./src/material.css"</code>
+          {t("（只一次）。", " (once).")}
+        </li>
+        <li>{t("侧栏进分类，点组件标题看 Demo 和 props（例如 /inputs/button）。", "Pick a category in the sidebar, then a component (for example /inputs/button).")}</li>
         <li>{t("在页面里按 Demo 那样 import 和使用。", "Import and use it the way the demo does.")}</li>
       </ol>
+      {lang === "zh" ? (
+        <P>不用 CLI 时，源码区「复制全部」仍可用，拆开贴进 Installation 的目录。</P>
+      ) : (
+        <P>Without the CLI, Copy all on the Source tab still works — paste into the Installation folders.</P>
+      )}
 
       <H2>{t("第一个 Button", "First Button")}</H2>
       <div className="mt-4">
