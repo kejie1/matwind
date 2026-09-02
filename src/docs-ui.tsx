@@ -1,16 +1,8 @@
-import { Children, isValidElement, useEffect, useState, type ReactNode } from "react";
-import { Tab, Tabs } from "./components/tabs";
+import { useEffect, useState, type ReactNode } from "react";
 import { tokenize } from "./lib/highlight";
 import { useT } from "./locale";
 import { relatedFiles, sourceName, sources, copyFiles, formatBundle } from "./sources";
 
-export function Row({ children }: { children: ReactNode }) {
-  return <div className="flex flex-wrap items-center gap-3">{children}</div>;
-}
-
-export function Demo({ children }: { children: ReactNode }) {
-  return <div className="md-demo rounded-[var(--md-radius)] border border-solid border-[var(--md-divider)] bg-white p-6">{children}</div>;
-}
 
 function IconCopy() {
   return (
@@ -174,74 +166,32 @@ export function Api({
   );
 }
 
-export function Doc({
-  id,
-  title,
-  file,
-  children,
-}: {
-  id: string;
-  title: string;
-  file?: string;
-  children: ReactNode;
-}) {
+export function SourceFiles({ file, compact }: { file?: string; compact?: boolean }) {
   const t = useT();
-  const [tab, setTab] = useState("use");
   const name = sourceName(file);
   const src = name ? sources[name] : undefined;
-  const extra = name && src ? relatedFiles(name) : [];
-  const kids = Children.toArray(children);
-  const play = kids.filter((n) => isValidElement(n) && (n.type === Demo || n.type === Code));
-  const rest = kids.filter((n) => !isValidElement(n) || (n.type !== Demo && n.type !== Code));
-
+  if (!name || !src) return null;
+  const extra = relatedFiles(name);
   return (
-    <article id={id} className="scroll-mt-24 border-0 border-t border-solid border-[var(--doc-line)] pt-10 first:border-t-0 first:pt-8">
-      <h2 className="doc-h2 mb-1 mt-0">
-        <a href={`#${id}`} className="text-inherit no-underline hover:underline">
-          {title}
-        </a>
-      </h2>
-      {file ? (
-        <p className="mb-4 mt-0">
-          <code className="doc-code text-[12px] text-[var(--doc-muted)]">{file}</code>
+    <div className={compact ? "space-y-3" : "mt-10 space-y-3"}>
+      {compact ? null : <h2 className="m-0 text-2xl font-bold tracking-tight text-slate-900">{t("源码", "Source")}</h2>}
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <CopyButton text={formatBundle(copyFiles(name))} className={copyOnLight} label={t("复制全部", "Copy All")} />
+        {copyFiles(name).map((f) => (
+          <span key={f} className="inline-flex items-center gap-1">
+            <code className="font-mono text-[12px] text-[var(--doc-muted)]">{f}</code>
+            <CopyButton text={sources[f]} className={copyOnLight} />
+          </span>
+        ))}
+      </div>
+      <Code label={name}>{src}</Code>
+      {extra.length ? (
+        <p className="mb-0 mt-0 text-[13px] text-[var(--doc-muted)]">
+          {t("还要一起拷：", "Also Copy: ")}
+          {extra.join(", ")}
         </p>
-      ) : (
-        <div className="mb-4" />
-      )}
-      {src ? (
-        <div className="kit mb-4 border-0 border-b border-solid border-[var(--md-divider)]">
-          <Tabs value={tab} onChange={setTab}>
-            <Tab value="use" label={t("使用方式", "Usage")} />
-            <Tab value="src" label={t("源码", "Source")} />
-          </Tabs>
-        </div>
       ) : null}
-      {name && src && tab === "src" ? (
-        <div>
-          <div className="mb-2 flex flex-wrap items-center gap-x-3 gap-y-1">
-            <CopyButton text={formatBundle(copyFiles(name))} className={copyOnLight} label={t("复制全部", "Copy All")} />
-            {copyFiles(name).map((f) => (
-              <span key={f} className="inline-flex items-center gap-1">
-                <code className="font-mono text-[12px] text-[var(--doc-muted)]">{f}</code>
-                <CopyButton text={sources[f]} className={copyOnLight} />
-              </span>
-            ))}
-          </div>
-          <Code label={name}>{src}</Code>
-          {extra.length ? (
-            <p className="mb-0 mt-3 text-[13px] text-[var(--doc-muted)]">
-              {t("还要一起拷：", "Also Copy: ")}
-              {extra.join(", ")}
-            </p>
-          ) : null}
-        </div>
-      ) : (
-        <>
-          {play}
-          {rest}
-        </>
-      )}
-    </article>
+    </div>
   );
 }
 

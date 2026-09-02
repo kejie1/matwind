@@ -273,10 +273,10 @@ npm run dev`}</Code>
       {lang === "zh" ? (
         <P>
           打开{" "}
-          <a href="/inputs#button" className="doc-link">
+          <a href="/inputs/button" className="doc-link">
             Button
           </a>
-          ，切到「源码」，点复制全部，按文件名拆开放进{" "}
+          ，到源码区点复制全部，按文件名拆开放进{" "}
           <code className="font-mono text-[13px]">src/components/</code>
           。cn / ripple 上一步已经拷过。细节在{" "}
           <a href="/docs/usage" className="doc-link">
@@ -287,10 +287,10 @@ npm run dev`}</Code>
       ) : (
         <P>
           Open{" "}
-          <a href="/inputs#button" className="doc-link">
+          <a href="/inputs/button" className="doc-link">
             Button
           </a>
-          , switch to Source, copy all, and split files into{" "}
+          , copy all from Source, and split files into{" "}
           <code className="font-mono text-[13px]">src/components/</code>. cn / ripple were copied in the previous step. Details
           in{" "}
           <a href="/docs/usage" className="doc-link">
@@ -316,11 +316,11 @@ export function UsagePage() {
       )}
     >
       <H2>{t("工作流", "Workflow")}</H2>
-      <P>{t("每个组件文档有两个 tab：", "Each component page has two tabs:")}</P>
+      <P>{t("每个组件一页：", "Each component is its own page:")}</P>
       <Ul>
         <li>
-          <strong className="font-medium text-[var(--doc-ink)]">{t("使用方式", "Usage")}</strong>
-          {t(" — 可点的 Demo、一段最小用法、prop 表。", " — a live demo, a minimal snippet, and a prop table.")}
+          <strong className="font-medium text-[var(--doc-ink)]">{t("交互预览", "Interactive preview")}</strong>
+          {t(" — 右侧改 props，左侧实时更新，下面是生成的用法。", " — change props on the right, the live instance updates, with a generated snippet below.")}
         </li>
         <li>
           <strong className="font-medium text-[var(--doc-ink)]">{t("源码", "Source")}</strong>
@@ -331,17 +331,17 @@ export function UsagePage() {
       </Ul>
       <P>{t("步骤：", "Steps:")}</P>
       <ol className="doc-ol">
-        <li>{t("侧栏进分类，点组件标题（或带 hash 的链接，例如 /inputs#button）。", "Pick a category in the sidebar, then a component (or a hashed URL like /inputs#button).")}</li>
-        <li>{t("先看使用方式，确认 variant / color / 受控写法对得上你的场景。", "Read Usage first: variant / color / controlled API should match your case.")}</li>
+        <li>{t("侧栏进分类，点组件标题（例如 /inputs/button）。", "Pick a category in the sidebar, then a component (for example /inputs/button).")}</li>
+        <li>{t("先在预览里试 variant / color / 受控写法。", "Try variant / color / controlled API in the preview first.")}</li>
         <li>
           {lang === "zh" ? (
             <>
-              切到源码，点复制全部。剪贴板按 <code className="font-mono text-[13px]">// ===== 文件名 =====</code>{" "}
+              到源码区点复制全部。剪贴板按 <code className="font-mono text-[13px]">// ===== 文件名 =====</code>{" "}
               拆开贴。cn.ts / ripple 在安装时已经拷过，这里不会带上。
             </>
           ) : (
             <>
-              Switch to Source, copy all. Split the clipboard on{" "}
+              Copy all from Source. Split the clipboard on{" "}
               <code className="font-mono text-[13px]">// ===== filename =====</code>. cn.ts / ripple were copied during
               Installation and are not included.
             </>
@@ -454,7 +454,7 @@ export function SaveBar() {
       </div>
       <P>
         {t("页面宽度可以用 ", "Page width: use ")}
-        <a href="/layout#container" className="doc-link">
+        <a href="/layout/container" className="doc-link">
           Container
         </a>
         {t("，或自己写 ", ", or write your own ")}
@@ -465,7 +465,7 @@ export function SaveBar() {
       {lang === "zh" ? (
         <P>
           没有打包 Material Icons 字体。需要图标时，拷{" "}
-          <a href="/data-display#icons" className="doc-link">
+          <a href="/data-display/icons" className="doc-link">
             SvgIcon
           </a>{" "}
           或直接内联 24×24 SVG（viewBox=&quot;0 0 24 24&quot;），和 MUI 图标路径兼容。
@@ -473,7 +473,7 @@ export function SaveBar() {
       ) : (
         <P>
           No Material Icons font is bundled. Copy{" "}
-          <a href="/data-display#icons" className="doc-link">
+          <a href="/data-display/icons" className="doc-link">
             SvgIcon
           </a>{" "}
           or inline a 24×24 SVG (viewBox=&quot;0 0 24 24&quot;). Paths match MUI icons.

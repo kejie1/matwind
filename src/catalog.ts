@@ -12,7 +12,16 @@ export type CatalogGroup = {
 };
 
 export function hrefOf(groupId: string, itemId?: string) {
-  return itemId ? `/${groupId}#${itemId}` : `/${groupId}`;
+  return itemId ? `/${groupId}/${itemId}` : `/${groupId}`;
+}
+
+export function parsePath(path: string) {
+  const parts = path.split("/").filter(Boolean);
+  const group = catalog.find((g) => g.id === parts[0]);
+  if (!group) return null;
+  if (!parts[1]) return { group };
+  const item = group.items.find((i) => i.id === parts[1] && !i.skip);
+  return item ? { group, item } : { group };
 }
 
 export function liveItems() {

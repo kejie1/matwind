@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { catalog, docsNav, hrefOf, liveItems } from "./catalog";
 import { IconClose, IconMenu, IconSearch } from "./docs-ui";
 import { useLang, useSetLang, useT } from "./locale";
-import { REPO } from "./repo";
+import { REPO, VERSION } from "./repo";
 
 function Ico({ d, className }: { d: string; className?: string }) {
   return (
@@ -67,7 +67,7 @@ export function SkipLink() {
 export function Topbar({ path, onSearch }: { path: string; onSearch: () => void }) {
   const t = useT();
   const docs = path === "/" || path.startsWith("/docs");
-  const comps = path === "/components" || catalog.some((g) => path === `/${g.id}`);
+  const comps = path === "/components" || catalog.some((g) => path === `/${g.id}` || path.startsWith(`/${g.id}/`));
   return (
     <header className="sticky top-0 z-40 border-b border-slate-200 bg-white/90 backdrop-blur-md">
       <div className="flex h-16 items-center justify-between gap-4 px-4">
@@ -79,7 +79,7 @@ export function Topbar({ path, onSearch }: { path: string; onSearch: () => void 
             <span>
               <span className="text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">Material Kit</span>
               <span className="ml-2 hidden rounded border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 sm:inline-block">
-                1.1.0
+                {VERSION}
               </span>
             </span>
           </a>
@@ -135,12 +135,11 @@ export function Topbar({ path, onSearch }: { path: string; onSearch: () => void 
 
 export function SideNav({
   path,
-  hash,
   mobile,
   onNavigate,
 }: {
   path: string;
-  hash: string;
+  hash?: string;
   mobile?: boolean;
   onNavigate?: () => void;
 }) {
@@ -153,11 +152,11 @@ export function SideNav({
   };
   const [treeOpen, setTreeOpen] = useState(true);
   const [cats, setCats] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(catalog.map((g, i) => [g.id, i < 3 || path === `/${g.id}`])),
+    Object.fromEntries(catalog.map((g, i) => [g.id, i < 3 || path === `/${g.id}` || path.startsWith(`/${g.id}/`)])),
   );
 
   useEffect(() => {
-    const g = catalog.find((x) => path === `/${x.id}`);
+    const g = catalog.find((x) => path === `/${x.id}` || path.startsWith(`/${x.id}/`));
     if (g) setCats((c) => ({ ...c, [g.id]: true }));
   }, [path]);
 
@@ -218,7 +217,6 @@ export function SideNav({
             </a>
             {catalog.map((g) => {
               const expanded = cats[g.id] !== false;
-              const groupOn = path === `/${g.id}`;
               return (
                 <div key={g.id} className="pt-2">
                   <button
@@ -242,12 +240,12 @@ export function SideNav({
                               href={hrefOf(g.id, it.id)}
                               onClick={onNavigate}
                               className={`flex w-full items-center gap-2 rounded-lg px-3 py-1.5 text-left text-xs no-underline transition ${
-                                groupOn && hash === it.id
+                                path === hrefOf(g.id, it.id)
                                   ? "bg-blue-100/80 font-bold text-blue-700 shadow-sm"
                                   : "font-normal text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                               }`}
                             >
-                              {groupOn && hash === it.id ? <span className="size-1.5 shrink-0 rounded-full bg-blue-600" /> : null}
+                              {path === hrefOf(g.id, it.id) ? <span className="size-1.5 shrink-0 rounded-full bg-blue-600" /> : null}
                               {it.title}
                             </a>
                           </li>

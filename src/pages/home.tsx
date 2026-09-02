@@ -1,12 +1,16 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { catalog, hrefOf } from "../catalog";
 import { ComponentThumb } from "../thumbs";
 import { useT } from "../locale";
 
-export function HomePage() {
+export function HomePage({ category }: { category?: string }) {
   const t = useT();
   const [q, setQ] = useState("");
-  const [cat, setCat] = useState("All");
+  const [cat, setCat] = useState(category ?? "All");
+
+  useEffect(() => {
+    setCat(category ?? "All");
+  }, [category]);
 
   const filtered = useMemo(() => {
     const s = q.toLowerCase();

@@ -7,6 +7,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig, type Plugin } from "vite";
 
 const dir = path.dirname(fileURLToPath(import.meta.url));
+const kitVersion = JSON.parse(fs.readFileSync(path.join(dir, "package.json"), "utf8")).version as string;
 const posix = (p: string) => p.replace(/\\/g, "/");
 const muiNm = posix(path.resolve(dir, "../MUI/node_modules"));
 const kitNm = posix(path.resolve(dir, "node_modules"));
@@ -57,6 +58,7 @@ export const {
 }
 
 export default defineConfig({
+  define: { __KIT_VERSION__: JSON.stringify(kitVersion) },
   plugins: [cjsAsEsm(), tailwindcss(), react()],
   resolve: {
     alias: [
