@@ -407,9 +407,19 @@ textarea {
 .md-dialog {
   border: 0;
   padding: 0;
-  background: transparent;
+  margin: 0;
   max-width: none;
   max-height: none;
+  background: transparent;
+}
+.md-dialog[open] {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+.md-dialog:not([open]) {
+  display: none;
 }
 
 .md-dialog::backdrop {

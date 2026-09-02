@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState, type ComponentType } from "react";
+import { useEffect, useState, type ComponentType } from "react";
 import { catalog, parsePath } from "./catalog";
 import { Backdrop, MobileBar, SearchModal, SideNav, SkipLink, Topbar } from "./chrome";
 import { useT } from "./locale";
@@ -7,8 +7,6 @@ import { IntroPage, InstallPage, ThemingPage, UsagePage } from "./pages/docs";
 import { HomePage } from "./pages/home";
 import { LandingPage } from "./pages/landing";
 import { ComponentPage } from "./pages/component";
-
-const PixelPage = lazy(() => import("./pages/pixel").then((m) => ({ default: m.PixelPage })));
 
 const pages: Record<string, ComponentType> = {
   "/": LandingPage,
@@ -27,7 +25,6 @@ function pageLabel(path: string, t: (zh: string, en: string) => string) {
     "/docs/usage": t("用法", "Usage"),
     "/docs/theming": t("主题", "Theming"),
     "/components": t("组件", "Components"),
-    "/pixel": "Pixel",
   };
   const hit = parsePath(path);
   if (hit?.item) return hit.item.title;
@@ -113,14 +110,6 @@ export default function App() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
-
-  if (path === "/pixel") {
-    return (
-      <Suspense fallback={null}>
-        <PixelPage />
-      </Suspense>
-    );
-  }
 
   const Page = pages[path] ?? HomePage;
   const wide = !!hit?.item;
