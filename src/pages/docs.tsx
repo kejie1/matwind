@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { Api, Code, CopyButton, Page } from "../docs-ui";
-import { REPO } from "../repo";
+import { NAME, REPO } from "../repo";
 import { useLang, useT } from "../locale";
 import { formatBundle, KERNEL, sources } from "../sources";
 
@@ -45,13 +45,13 @@ export function IntroPage() {
       <H2>{t("这是什么", "What this is")}</H2>
       {lang === "zh" ? (
         <P>
-          Material Kit 是一个开源仓库：皮肤对齐 <code className="font-mono text-[13px]">@mui/material</code> 9.3.1 的{" "}
+          matwind 是一个开源仓库：皮肤对齐 <code className="font-mono text-[13px]">@mui/material</code> 9.3.1 的{" "}
           <strong className="font-medium text-[var(--doc-ink)]">default light</strong>（Material 2）。组件是普通 React + Tailwind
           className，源文件在 <code className="font-mono text-[13px]">src/components/</code>。克隆仓库，或把文件拷进你的项目，文件归你改。
         </P>
       ) : (
         <P>
-          Material Kit is an open-source repo. Skin matches <code className="font-mono text-[13px]">@mui/material</code> 9.3.1{" "}
+          matwind is an open-source repo. Skin matches <code className="font-mono text-[13px]">@mui/material</code> 9.3.1{" "}
           <strong className="font-medium text-[var(--doc-ink)]">default light</strong> (Material 2). Components are plain React +
           Tailwind className. Source lives in <code className="font-mono text-[13px]">src/components/</code>. Clone it, or copy
           files into your project — they're yours to edit.
@@ -63,14 +63,14 @@ export function IntroPage() {
           "The license is MIT. Each component has a demo, usage, and copyable source. Issues and PRs go to GitHub.",
         )}{" "}
         <a href={REPO} className="doc-link" target="_blank" rel="noreferrer">
-          github.com/kejie1/Material-Kit
+          {REPO.replace("https://", "")}
         </a>
         。
       </P>
 
       <H2>{t("和 MUI、shadcn 的差别", "Vs MUI and shadcn")}</H2>
       <Api
-        head={["", t("本 kit", "This kit"), "MUI", "shadcn/ui"]}
+        head={["", "matwind", "MUI", "shadcn/ui"]}
         rows={[
           [t("安装", "Install"), t("拷文件", "Copy files"), "npm @mui/material", t("拷文件", "Copy files")],
           [t("样式", "Style"), "className + CSS " + t("变量", "variables"), "Emotion / sx", "className + CSS " + t("变量", "variables")],
@@ -141,8 +141,8 @@ export function InstallPage() {
       <H2>{t("跑文档站", "Run the docs site")}</H2>
       <P>{t("克隆后在仓库里：", "After cloning:")}</P>
       <div className="mt-4">
-        <Code label="terminal">{`git clone https://github.com/kejie1/Material-Kit.git
-cd Material-Kit
+        <Code label="terminal">{`git clone ${REPO}.git
+cd ${NAME}
 npm install
 npm run dev`}</Code>
       </div>
@@ -168,12 +168,12 @@ npm run dev`}</Code>
       {lang === "zh" ? (
         <P>
           Tailwind v4 在入口 CSS 里写 <code className="font-mono text-[13px]">@import "tailwindcss"</code>，不要再配一份
-          Tailwind v3 的 <code className="font-mono text-[13px]">tailwind.config.js</code> 才用本 kit。
+          Tailwind v3 的 <code className="font-mono text-[13px]">tailwind.config.js</code> 才用 matwind。
         </P>
       ) : (
         <P>
           Tailwind v4 goes in your entry CSS as <code className="font-mono text-[13px]">@import "tailwindcss"</code>. Don't add a
-          Tailwind v3 <code className="font-mono text-[13px]">tailwind.config.js</code> just to use this kit.
+          Tailwind v3 <code className="font-mono text-[13px]">tailwind.config.js</code> just to use matwind.
         </P>
       )}
 
@@ -480,7 +480,7 @@ export function SaveBar() {
         </P>
       )}
 
-      <H2>{t("本 kit 不做", "Out of scope")}</H2>
+      <H2>{t("matwind 不做", "Out of scope")}</H2>
       <Ul>
         <li>Autocomplete、DatePicker、DataGrid</li>
         <li>Box、Grid、Stack</li>
@@ -561,15 +561,15 @@ export function ThemingPage() {
       {lang === "zh" ? (
         <P>
           组件用 Tailwind 字号（<code className="font-mono text-[13px]">text-sm</code> 等）对齐 MUI 的 px。用{" "}
-          <code className="font-mono text-[13px]">.kit</code> 包一层会套 Roboto。换字体改{" "}
-          <code className="font-mono text-[13px]">.kit</code> 的 font-family 和你加载的 font-face，不要在单个 Button 上设
+          <code className="font-mono text-[13px]">.matwind</code> 包一层会套 Roboto。换字体改{" "}
+          <code className="font-mono text-[13px]">.matwind</code> 的 font-family 和你加载的 font-face，不要在单个 Button 上设
           font-family，除非你就要那一个例外。
         </P>
       ) : (
         <P>
           Components use Tailwind type sizes (<code className="font-mono text-[13px]">text-sm</code> and so on) to match MUI px.
-          Wrap with <code className="font-mono text-[13px]">.kit</code> for Roboto. To change the font, edit{" "}
-          <code className="font-mono text-[13px]">.kit</code> font-family and the face you load — don't set font-family on a
+          Wrap with <code className="font-mono text-[13px]">.matwind</code> for Roboto. To change the font, edit{" "}
+          <code className="font-mono text-[13px]">.matwind</code> font-family and the face you load — don't set font-family on a
           single Button unless that one is the exception.
         </P>
       )}
@@ -589,13 +589,13 @@ export function ThemingPage() {
       <H2>{t("没有 dark mode", "No dark mode")}</H2>
       {lang === "zh" ? (
         <P>
-          不提供 <code className="font-mono text-[13px]">.dark</code> 一套变量。你要暗色就自己加一组 token 并改根节点 class，这是你的主题，不是本
-          kit 的范围。
+          不提供 <code className="font-mono text-[13px]">.dark</code> 一套变量。你要暗色就自己加一组 token 并改根节点 class，这是你的主题，不是
+          matwind 的范围。
         </P>
       ) : (
         <P>
           There is no <code className="font-mono text-[13px]">.dark</code> token set. If you want dark, add your own tokens and
-          a root class — that's your theme, not this kit.
+          a root class — that's your theme, not matwind.
         </P>
       )}
       <Pager prev={{ href: "/docs/usage", title: t("用法", "Usage") }} next={{ href: "/components", title: t("组件", "Components") }} />

@@ -1,4 +1,4 @@
-/* Material Kit — copy this file once. Docs chrome is not in here. */
+/* matwind — copy this file once. Docs chrome is not in here. */
 :root {
   --md-primary: #1976d2;
   --md-primary-light: #42a5f5;
@@ -662,11 +662,11 @@ textarea {
   }
 }
 
-.kit {
+.matwind {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   color: var(--md-text);
 }
 
-.kit p {
+.matwind p {
   color: inherit;
 }

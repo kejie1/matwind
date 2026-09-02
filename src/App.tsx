@@ -2,7 +2,7 @@ import { useEffect, useState, type ComponentType } from "react";
 import { catalog, parsePath } from "./catalog";
 import { Backdrop, MobileBar, SearchModal, SideNav, SkipLink, Topbar } from "./chrome";
 import { useT } from "./locale";
-import { REPO, VERSION } from "./repo";
+import { NAME, REPO, VERSION } from "./repo";
 import { IntroPage, InstallPage, ThemingPage, UsagePage } from "./pages/docs";
 import { HomePage } from "./pages/home";
 import { LandingPage } from "./pages/landing";
@@ -19,7 +19,7 @@ const pages: Record<string, ComponentType> = {
 
 function pageLabel(path: string, t: (zh: string, en: string) => string) {
   const titles: Record<string, string> = {
-    "/": "Material Kit",
+    "/": NAME,
     "/docs": t("简介", "Introduction"),
     "/docs/installation": t("安装", "Installation"),
     "/docs/usage": t("用法", "Usage"),
@@ -29,7 +29,7 @@ function pageLabel(path: string, t: (zh: string, en: string) => string) {
   const hit = parsePath(path);
   if (hit?.item) return hit.item.title;
   if (hit?.group) return hit.group.title;
-  return titles[path] ?? "Material Kit";
+  return titles[path] ?? NAME;
 }
 
 function usePath() {
@@ -78,7 +78,7 @@ function usePath() {
 
   useEffect(() => {
     const label = pageLabel(path, t);
-    document.title = path === "/" ? "Material Kit" : `${label} — Material Kit`;
+    document.title = path === "/" ? NAME : `${label} — ${NAME}`;
     if (hash) {
       requestAnimationFrame(() => document.getElementById(hash)?.scrollIntoView());
     } else {
@@ -139,7 +139,7 @@ export default function App() {
       </div>
       <footer className="border-t border-slate-200 bg-white px-4 py-4 text-xs text-slate-500">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span>MIT {t("许可", "License")} · Material Kit {VERSION}</span>
+          <span>MIT {t("许可", "License")} · {NAME} {VERSION}</span>
           <a href={REPO} target="_blank" rel="noreferrer" className="text-slate-600 no-underline hover:text-slate-900">
             GitHub
           </a>

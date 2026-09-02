@@ -76,7 +76,7 @@ export function Playground({ spec }: { spec: PlaygroundSpec }) {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div className="kit border-b border-slate-200 px-2">
+      <div className="matwind border-b border-slate-200 px-2">
         <Tabs value={tab} onChange={setTab}>
           <Tab value="preview" label={t("预览", "Preview")} />
           <Tab value="code" label={t("代码", "Code")} />

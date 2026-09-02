@@ -50,7 +50,7 @@ export function ComponentThumb({ id }: { id: string }) {
     }
   })();
   return (
-    <div className="kit pointer-events-none flex h-full w-full scale-90 items-center justify-center overflow-hidden">
+    <div className="matwind pointer-events-none flex h-full w-full scale-90 items-center justify-center overflow-hidden">
       {inner}
     </div>
   );

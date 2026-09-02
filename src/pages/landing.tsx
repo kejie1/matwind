@@ -81,7 +81,7 @@ export function LandingPage() {
                 </code>
               </pre>
               <div className="space-y-4 bg-white p-5">
-                <div className="kit flex flex-wrap items-center gap-2">
+                <div className="matwind flex flex-wrap items-center gap-2">
                   {variants.map((x) => (
                     <div
                       key={x}

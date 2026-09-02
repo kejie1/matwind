@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { catalog, docsNav, hrefOf, liveItems } from "./catalog";
 import { IconClose, IconMenu, IconSearch } from "./docs-ui";
 import { useLang, useSetLang, useT } from "./locale";
-import { REPO, VERSION } from "./repo";
+import { NAME, REPO, VERSION } from "./repo";
 
 function Ico({ d, className }: { d: string; className?: string }) {
   return (
@@ -77,7 +77,7 @@ export function Topbar({ path, onSearch }: { path: string; onSearch: () => void 
               <IconLayers />
             </span>
             <span>
-              <span className="text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">Material Kit</span>
+              <span className="text-base font-extrabold tracking-tight text-slate-900 sm:text-lg">{NAME}</span>
               <span className="ml-2 hidden rounded border border-blue-200 bg-blue-50 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-blue-700 sm:inline-block">
                 {VERSION}
               </span>
@@ -170,7 +170,7 @@ export function SideNav({
       }`}
     >
       <div className="mb-6 px-2">
-        <h2 className="text-xl font-extrabold tracking-tight text-slate-900">Material Kit</h2>
+        <h2 className="text-xl font-extrabold tracking-tight text-slate-900">{NAME}</h2>
       </div>
       <div className="mb-6">
         <div className="mb-2 px-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">{t("开始", "Getting Started")}</div>
@@ -321,7 +321,7 @@ export function SearchModal({ open, onClose }: { open: boolean; onClose: () => v
           )}
         </div>
         <div className="flex items-center justify-between border-t border-slate-100 bg-slate-50 px-4 py-2 text-[11px] text-slate-400">
-          <span>{t("搜索 Material Kit", "Search Material Kit")}</span>
+          <span>{t(`搜索 ${NAME}`, `Search ${NAME}`)}</span>
           <span>{t("ESC 关闭", "ESC to close")}</span>
         </div>
       </div>
