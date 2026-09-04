@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Switch } from "./components/switch";
 import { Tab, Tabs } from "./components/tabs";
 import { Code, SourceFiles } from "./docs-ui";
@@ -29,6 +29,7 @@ export type PlaygroundSpec = {
   propsHead?: Pair[];
   code?: (p: Record<string, any>) => string;
   Preview: (props: PreviewProps) => JSX.Element;
+  examples?: { title: Pair; code: string; Preview: () => JSX.Element }[];
 };
 
 export function emit(tag: string, p: Record<string, unknown>, children?: string, skip: string[] = []) {
@@ -65,10 +66,12 @@ export function Playground({ spec }: { spec: PlaygroundSpec }) {
   const t = useT();
   const [p, setP] = useState(spec.defaults);
   const [tab, setTab] = useState("preview");
-  useEffect(() => {
+  const [seen, setSeen] = useState(spec);
+  if (spec !== seen) {
+    setSeen(spec);
     setP(spec.defaults);
     setTab("preview");
-  }, [spec]);
+  }
   const set = (name: string, value: unknown) => setP((prev) => ({ ...prev, [name]: value }));
   const snippet = spec.code?.(p) ?? "";
   const Preview = spec.Preview;

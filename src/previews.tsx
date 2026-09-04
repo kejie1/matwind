@@ -32,7 +32,7 @@ import { ClickAwayListener, Popover } from "./components/popover";
 import { CircularProgress, LinearProgress, Skeleton } from "./components/progress";
 import { Radio, RadioGroup } from "./components/radio";
 import { Rating } from "./components/rating";
-import { MenuItem, Select } from "./components/select";
+import { MenuItem, Select, SelectGroup } from "./components/select";
 import { Slider } from "./components/slider";
 import { Snackbar } from "./components/snackbar";
 import { SpeedDial, SpeedDialAction } from "./components/speed-dial";
@@ -51,6 +51,85 @@ import { emit, type PlaygroundSpec, type PreviewProps } from "./playground";
 
 const colors = ["primary", "error", "inherit"];
 const sizes = ["small", "medium", "large"];
+
+const selectCities = [
+  ["kl", "Kuala Lumpur"],
+  ["pg", "Penang"],
+  ["jb", "Johor Bahru"],
+] as const;
+
+function cityItems() {
+  return selectCities.map(([v, n]) => (
+    <MenuItem key={v} value={v}>
+      {n}
+    </MenuItem>
+  ));
+}
+
+function SelectMultiple() {
+  const [value, setValue] = useState<string[]>(["kl", "pg"]);
+  return (
+    <Select label="Cities" multiple value={value} onChange={(v) => setValue(v as string[])} fullWidth>
+      {cityItems()}
+    </Select>
+  );
+}
+
+function SelectIndicators() {
+  const [value, setValue] = useState<string[]>(["kl"]);
+  return (
+    <Select label="Cities" multiple checkmark value={value} onChange={(v) => setValue(v as string[])} fullWidth>
+      {cityItems()}
+    </Select>
+  );
+}
+
+function SelectChips() {
+  const [value, setValue] = useState<string[]>(["pg", "jb"]);
+  const name = (id: string) => selectCities.find((c) => c[0] === id)?.[1] ?? id;
+  return (
+    <Select
+      label="Cities"
+      multiple
+      value={value}
+      onChange={(v) => setValue(v as string[])}
+      fullWidth
+      renderValue={(v) => (
+        <span className="flex flex-wrap gap-1">
+          {(v as string[]).map((id) => (
+            <Chip key={id} size="small" onDelete={() => setValue((cur) => cur.filter((x) => x !== id))}>
+              {name(id)}
+            </Chip>
+          ))}
+        </span>
+      )}
+    >
+      {cityItems()}
+    </Select>
+  );
+}
+
+function SelectPlaceholder() {
+  const [value, setValue] = useState("");
+  return (
+    <Select label="City" placeholder="Select a city" value={value} onChange={(v) => setValue(v as string)} fullWidth>
+      {cityItems()}
+    </Select>
+  );
+}
+
+function SelectGrouping() {
+  const [value, setValue] = useState("kl");
+  return (
+    <Select label="City" value={value} onChange={(v) => setValue(v as string)} fullWidth>
+      <SelectGroup>Peninsular</SelectGroup>
+      <MenuItem value="kl">Kuala Lumpur</MenuItem>
+      <MenuItem value="pg">Penang</MenuItem>
+      <SelectGroup>Southern</SelectGroup>
+      <MenuItem value="jb">Johor Bahru</MenuItem>
+    </Select>
+  );
+}
 
 function MenuPreview({ p: _p }: PreviewProps) {
   const [el, setEl] = useState<HTMLElement | null>(null);
@@ -306,6 +385,7 @@ export const previews: Record<string, PlaygroundSpec> = {
   },
   select: {
     file: "select.tsx",
+    lead: ["单选、多选、Chip、占位、分组。value 多选时是 string[]。", "Single, multiple, chips, placeholder, grouping. Multiple value is string[]."],
     defaults: { label: "City", value: "kl", fullWidth: true, disabled: false },
     controls: [
       { name: "label", kind: "text" },
@@ -314,8 +394,12 @@ export const previews: Record<string, PlaygroundSpec> = {
     ],
     props: [
       ["label", "string", ""],
-      ["value", "string", ""],
-      ["onChange", "(value: string) => void", ""],
+      ["value", "string | string[]", ""],
+      ["onChange", "(value: string | string[]) => void", ""],
+      ["multiple", "boolean", ""],
+      ["placeholder", "string", ""],
+      ["renderValue", "(value) => ReactNode", "", ["自定义展示，Chip 用这个", "custom display; use for chips"]],
+      ["checkmark", "boolean", "", ["选项前打勾", "check mark on selected items"]],
       ["fullWidth / disabled", "boolean", ""],
     ],
     code: (p) => `<Select label="${p.label}" value="${p.value}" onChange={setValue}${p.fullWidth ? " fullWidth" : ""}${p.disabled ? " disabled" : ""}>\n  <MenuItem value="kl">Kuala Lumpur</MenuItem>\n</Select>`,
@@ -328,6 +412,33 @@ export const previews: Record<string, PlaygroundSpec> = {
         </Select>
       </div>
     ),
+    examples: [
+      {
+        title: ["多选", "Multiple select"],
+        code: `<Select label="Cities" multiple value={value} onChange={setValue}>\n  <MenuItem value="kl">Kuala Lumpur</MenuItem>\n</Select>`,
+        Preview: SelectMultiple,
+      },
+      {
+        title: ["选中指示", "Selection indicators"],
+        code: `<Select label="Cities" multiple checkmark value={value} onChange={setValue}>\n  <MenuItem value="kl">Kuala Lumpur</MenuItem>\n</Select>`,
+        Preview: SelectIndicators,
+      },
+      {
+        title: ["Chip", "Chip"],
+        code: `<Select multiple value={value} onChange={setValue} renderValue={(v) => v.map((id) => <Chip key={id}>{id}</Chip>)}>\n  <MenuItem value="kl">Kuala Lumpur</MenuItem>\n</Select>`,
+        Preview: SelectChips,
+      },
+      {
+        title: ["占位符", "Placeholder"],
+        code: `<Select label="City" placeholder="Select a city" value={value} onChange={setValue}>\n  <MenuItem value="kl">Kuala Lumpur</MenuItem>\n</Select>`,
+        Preview: SelectPlaceholder,
+      },
+      {
+        title: ["分组", "Grouping"],
+        code: `<Select label="City" value={value} onChange={setValue}>\n  <SelectGroup>Peninsular</SelectGroup>\n  <MenuItem value="kl">Kuala Lumpur</MenuItem>\n  <SelectGroup>Southern</SelectGroup>\n  <MenuItem value="jb">Johor Bahru</MenuItem>\n</Select>`,
+        Preview: SelectGrouping,
+      },
+    ],
   },
   "native-select": {
     file: "native-select.tsx",

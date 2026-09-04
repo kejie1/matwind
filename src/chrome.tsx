@@ -277,13 +277,20 @@ export function SearchModal({ open, onClose }: { open: boolean; onClose: () => v
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose]);
   if (!open) return null;
+  const s = q.trim().toLowerCase();
   const results = liveItems().filter((it) => {
-    const s = q.toLowerCase();
-    return it.title.toLowerCase().includes(s) || it.group.title.toLowerCase().includes(s) || it.id.includes(s);
+    if (!s) return true;
+    return it.title.toLowerCase().includes(s) || it.group.title.toLowerCase().includes(s) || it.id.toLowerCase().includes(s);
   });
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 px-4 backdrop-blur-[2px]" onClick={onClose}>
-      <div className="w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl" onClick={(e) => e.stopPropagation()}>
+      <div
+        className="w-full max-w-xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl"
+        onClick={(e) => {
+          if ((e.target as HTMLElement).closest("a")) return;
+          e.stopPropagation();
+        }}
+      >
         <div className="flex items-center border-b border-slate-200 px-4 py-3.5">
           <span className="mr-3 shrink-0 size-5 text-slate-400 [&_svg]:size-5">
             <IconSearch />

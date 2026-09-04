@@ -36,6 +36,17 @@ export function ComponentPage({ group, item }: { group: CatalogGroup; item: Cata
       </div>
       <Code label="terminal">{add}</Code>
       {spec ? <Playground spec={spec} /> : null}
+      {spec?.examples?.map((ex) => (
+        <section key={ex.title[1]} className="space-y-4">
+          <h2 className="m-0 text-2xl font-bold tracking-tight text-slate-900">{t(...ex.title)}</h2>
+          <div className="matwind overflow-visible rounded-2xl border border-slate-200 bg-[#fafbfc] p-6">
+            <div className="max-w-sm">
+              <ex.Preview />
+            </div>
+          </div>
+          <Code label="tsx">{ex.code}</Code>
+        </section>
+      ))}
       {spec?.note ? <p className="m-0 text-sm text-[var(--md-text-secondary)]">{t(...spec.note)}</p> : null}
       {rows.length ? <Api title="Props" head={head} rows={rows} /> : null}
     </div>

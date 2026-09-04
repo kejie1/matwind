@@ -15,7 +15,7 @@ type Props = Omit<InputHTMLAttributes<HTMLInputElement>, "size"> & {
 };
 
 export function TextField({
-  label,
+  label = "",
   variant = "outlined",
   size = "medium",
   error,
@@ -39,7 +39,7 @@ export function TextField({
   const [inner, setInner] = useState(String(defaultValue ?? ""));
   const current = value !== undefined ? String(value) : inner;
   const shrink = focused || current.length > 0 || !!startAdornment;
-  const inputId = id ?? label.replace(/\s+/g, "-").toLowerCase();
+  const inputId = id ?? (label.replace(/\s+/g, "-").toLowerCase() || "field");
 
   const field = {
     id: inputId,

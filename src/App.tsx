@@ -128,7 +128,7 @@ export default function App() {
         <main id="content" className="min-w-0 flex-1 py-8">
           <div className={`mx-auto w-full ${wide ? "max-w-5xl" : "max-w-4xl"}`}>
             {hit?.item ? (
-              <ComponentPage group={hit.group} item={hit.item} />
+              <ComponentPage key={hit.item.id} group={hit.group} item={hit.item} />
             ) : hit?.group && !pages[path] ? (
               <HomePage category={hit.group.id} />
             ) : (
